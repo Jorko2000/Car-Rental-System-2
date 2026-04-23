@@ -1,56 +1,30 @@
-package service;
+public static List<Car> readFromCSV(String path) {
+    List<Car> cars = new ArrayList<>();
 
-import model.Car;
-import java.io.*;
-import java.util.*;
+    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        String line;
 
-/**
- * Handles CSV read/write WITHOUT external libraries
- */
-public class FileService {
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
 
-    public static List<Car> readFromCSV(String path) {
-        List<Car> cars = new ArrayList<>();
+            String renter = data.length > 6 ? data[6] : "";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line;
+            Car car = new Car(
+                    data[0],
+                    data[1],
+                    data[2],
+                    Integer.parseInt(data[3]),
+                    data[4],
+                    data[5],
+                    renter
+            );
 
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-
-                Car car = new Car(
-                        data[0],
-                        data[1],
-                        data[2],
-                        Integer.parseInt(data[3]),
-                        data[4],
-                        Boolean.parseBoolean(data[5])
-                );
-                cars.add(car);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + e.getMessage());
+            cars.add(car);
         }
 
-        return cars;
+    } catch (Exception e) {
+        System.out.println("Error reading file: " + e.getMessage());
     }
 
-    public static void writeToCSV(String path, List<Car> cars) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-
-            for (Car car : cars) {
-                bw.write(car.getId() + "," +
-                        car.getMake() + "," +
-                        car.getModel() + "," +
-                        car.getYear() + "," +
-                        car.getType() + "," +
-                        car.isAvailable());
-                bw.newLine();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error writing file: " + e.getMessage());
-        }
-    }
+    return cars;
 }
