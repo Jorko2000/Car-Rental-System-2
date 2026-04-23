@@ -23,6 +23,8 @@ This is a console-based Car Rental System built using Java, demonstrating core O
 - `data/` → CSV storage
 
 ##  How to Run
+javac -d bin src/**/*.java
+java -cp bin Main
 
 ### 1. Compile
 ```bash
