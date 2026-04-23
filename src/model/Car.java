@@ -1,22 +1,36 @@
 package model;
 
-/**
- * Car class extending Vehicle
- */
 public class Car extends Vehicle {
     private String type;
+    private String status; // Available / Rented
+    private String currentRenter;
 
-    public Car(String id, String make, String model, int year, String type, boolean available) {
-        super(id, make, model, year, available);
+    public Car(String id, String make, String model, int year,
+               String type, String status, String currentRenter) {
+
+        super(id, make, model, year, status.equals("Available"));
         this.type = type;
+        this.status = status;
+        this.currentRenter = currentRenter;
     }
 
     public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public String getStatus() { return status; }
+    public String getCurrentRenter() { return currentRenter; }
+
+    public void setStatus(String status) {
+        this.status = status;
+        this.available = status.equals("Available");
+    }
+
+    public void setCurrentRenter(String renter) {
+        this.currentRenter = renter;
+    }
 
     @Override
     public void displayInfo() {
         System.out.println(id + " | " + make + " | " + model + " | " +
-                year + " | " + type + " | " + (available ? "Available" : "Rented"));
+                year + " | " + type + " | " + status +
+                " | " + (currentRenter.isEmpty() ? "None" : currentRenter));
     }
 }
